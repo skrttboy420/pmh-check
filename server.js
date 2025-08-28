@@ -1,31 +1,30 @@
-require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const axios = require('axios');
+require('dotenv').config();
 
 const app = express();
-app.use(express.json());
 
-const token = process.env.LINE_CHANNEL_ACCESS_TOKEN;
-const groupId = process.env.LINE_GROUP_ID;
+// ✅ เปิด CORS สำหรับทุก origin
+app.use(cors());
+app.use(express.json());
 
 app.post('/api/send-to-line', async (req, res) => {
   const { message } = req.body;
-
   try {
     await axios.post('https://api.line.me/v2/bot/message/push', {
-      to: groupId,
+      to: process.env.LINE_GROUP_ID,
       messages: [{ type: 'text', text: message }]
     }, {
       headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}`
       }
     });
-
-    res.status(200).send('ส่งข้อความเรียบร้อยแล้ว');
+    res.status(200).send('Message sent to LINE');
   } catch (error) {
-    console.error('เกิดข้อผิดพลาด:', error.response?.data || error.message);
-    res.status(500).send('ส่งข้อความไม่สำเร็จ');
+    console.error('LINE error:', error.response?.data || error.message);
+    res.status(500).send('Failed to send message');
   }
 });
 
