@@ -1,0 +1,16 @@
+# ไม่ต้อง track node_modules
+node_modules/
+
+# ไฟล์ config ส่วนตัว
+.env
+
+# ไฟล์ล็อก
+*.log
+
+# ไฟล์ระบบที่ไม่เกี่ยวกับโปรเจกต์
+.DS_Store
+Thumbs.db
+
+# ไฟล์จาก Windows ที่ไม่ควรเข้า repo
+*.tmp
+*.bak
