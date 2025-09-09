@@ -1,6 +1,8 @@
+
 require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
+const fetch = require('node-fetch');
 
 const app = express();
 app.use(express.json());
@@ -37,3 +39,8 @@ app.post('/api/send-to-line', (req, res) => {
 app.listen(3000, () => {
   console.log("🚀 Server running on port 3000");
 });
+setInterval(() => {
+  fetch('https://ชื่อโดเมนของคุณ.onrender.com/api/ping')
+    .then(() => console.log('Ping sent to keep server awake'))
+    .catch(err => console.error('Ping failed:', err));
+}, 300000); // ทุก 5 นาที
