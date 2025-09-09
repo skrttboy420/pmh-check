@@ -9,6 +9,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.send('Your application is running!');
+});
+
 app.post('/api/send-to-line', async (req, res) => {
   const { message } = req.body;
   try {
